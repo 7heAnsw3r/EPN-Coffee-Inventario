@@ -1,4 +1,8 @@
-id_producto,nombre_producto,cantidad,minimo
-P001,Cafe en grano 1kg,20,5
-P002,Leche entera 1L,3,10
-P003,Vasos para espresso,50,15
+proveedor,telefono,producto,cantidad
+Café Andino,0991234567,Café en grano,40
+Lácteos El Ordeño,0987654321,Leche entera,30
+Dulces del Valle,0998765432,Azúcar,50
+Dulces del Valle,0998765432,Chocolate en polvo,18
+Panadería La Espiga,022345678,Pan de queso,35
+Té Verde Distribuciones,0961122334,Té de manzanilla,4
+Té Verde Distribuciones,0961122334,Azúcar,15

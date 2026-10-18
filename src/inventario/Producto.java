@@ -1,11 +1,15 @@
 package inventario;
 
-/** Un producto dentro del inventario, con su stock actual y su stock minimo. */
+import java.util.LinkedHashSet;
+import java.util.Set;
+
+/** Un producto dentro del inventario, con su stock actual, su stock minimo y sus proveedores. */
 public class Producto {
     private final String id;
     private final String nombre;
     private int cantidad;
     private final int minimo;
+    private final Set<Proveedor> proveedores = new LinkedHashSet<>();
 
     public Producto(String id, String nombre, int cantidad, int minimo) {
         if (id == null || id.isBlank())
@@ -36,5 +40,13 @@ public class Producto {
         if (unidades < 0)
             throw new IllegalArgumentException("no se puede agregar una cantidad negativa");
         cantidad += unidades;
+    }
+
+    void agregarProveedor(Proveedor proveedor) {
+        proveedores.add(proveedor);
+    }
+
+    public Set<Proveedor> getProveedores() {
+        return new LinkedHashSet<>(proveedores);
     }
 }

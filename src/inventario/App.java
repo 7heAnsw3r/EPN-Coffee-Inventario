@@ -1,22 +1,36 @@
 package inventario;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+
 /**
  * MVP de consola: demuestra la Historia de Usuario 1
- * (registrar productos y consultar su stock / minimo).
+ * (recibir entregas de proveedores y consultar stock / minimo).
+ *
+ * java ... App                               -> carga datos/inventario_ejemplo.csv
+ * java ... App ruta/al/entregas.csv          -> carga ese CSV (formato POS)
  */
 public class App {
+    private static final int MINIMO_POR_DEFECTO = 10;
+
     public static void main(String[] args) {
-        Inventario inventario = new Inventario();
+        Path csv = args.length > 0 ? Paths.get(args[0]) : Paths.get("datos/inventario_ejemplo.csv");
 
-        inventario.registrarProducto("P001", "Cafe en grano 1kg", 20, 5);
-        inventario.registrarProducto("P002", "Leche entera 1L", 3, 10);
-        inventario.registrarProducto("P003", "Vasos para espresso", 50, 15);
+        Inventario inventario;
+        try {
+            inventario = CargadorCsv.cargar(csv, MINIMO_POR_DEFECTO);
+        } catch (ErrorCsvException e) {
+            System.err.println("No se pudo cargar el CSV: " + e.getMessage());
+            return;
+        }
 
-        System.out.println("=== Inventario EPN Coffee ===");
+        System.out.println("=== Inventario EPN Coffee (desde " + csv + ") ===");
         for (Producto p : inventario.listar()) {
             String alerta = p.estaBajoMinimo() ? "  <-- BAJO MINIMO" : "";
-            System.out.printf("%-6s %-22s stock=%-4d minimo=%-4d%s%n",
-                    p.getId(), p.getNombre(), p.getCantidad(), p.getMinimo(), alerta);
+            List<String> proveedores = p.getProveedores().stream().map(Proveedor::getNombre).toList();
+            System.out.printf("%-24s stock=%-4d minimo=%-4d proveedores=%s%s%n",
+                    p.getNombre(), p.getCantidad(), p.getMinimo(), proveedores, alerta);
         }
     }
 }
