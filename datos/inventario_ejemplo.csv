@@ -1,0 +1,4 @@
+id_producto,nombre_producto,cantidad,minimo
+P001,Cafe en grano 1kg,20,5
+P002,Leche entera 1L,3,10
+P003,Vasos para espresso,50,15
